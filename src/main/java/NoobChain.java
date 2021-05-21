@@ -11,7 +11,7 @@ import java.util.ArrayList;
     1. 블록체인을 만들고 data를 저장한다.
     2. 전자서명을 통해 블록을 연결한다.
     3. pow 알고리즘을 이용해서 새로운 블록의 타당성을 검증한다.
-    
+
  */
 public class NoobChain {
 
