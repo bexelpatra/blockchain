@@ -1,8 +1,12 @@
 import com.google.gson.GsonBuilder;
 import com.sun.xml.internal.ws.util.StringUtils;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import util.StringUtil;
 
+import java.security.Security;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 /*
     참고자료 : https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa
 
@@ -17,6 +21,9 @@ public class NoobChain {
 
     public static ArrayList<Block> blockChain = new ArrayList<>();
     public static int difficulty = 5;
+    public static HashMap<String,TransactionOutput> UTXOs = new HashMap<>();
+    public static Wallet walletA;
+    public static Wallet walletB;
     public static void main(String[] args) {
 
         // todo chapter 1
@@ -41,23 +48,42 @@ public class NoobChain {
 
         // todo chapter 3
         //  mining
-        blockChain.add(new Block("hello block", "0"));
-        System.out.println("Trying to Mine block 1... ");
-        blockChain.get(0).mineBlock(difficulty);
+//        blockChain.add(new Block("hello block", "0"));
+//        System.out.println("Trying to Mine block 1... ");
+//        blockChain.get(0).mineBlock(difficulty);
+//
+//        blockChain.add(new Block("second",blockChain.get(blockChain.size()-1).hash));
+//        System.out.println("Trying to Mine block 2... ");
+//        blockChain.get(1).mineBlock(difficulty);
+//
+//        blockChain.add(new Block("third",blockChain.get(blockChain.size()-1).hash));
+//        System.out.println("Trying to Mine block 3... ");
+//        blockChain.get(2).mineBlock(difficulty);
+//
+//        System.out.println("\nBlockchain is Valid: " + isChainValid());
+//
+//        String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(blockChain);
+//        System.out.println("\nThe block chain: ");
+//        System.out.println(blockchainJson);
 
-        blockChain.add(new Block("second",blockChain.get(blockChain.size()-1).hash));
-        System.out.println("Trying to Mine block 2... ");
-        blockChain.get(1).mineBlock(difficulty);
+        // todo chapter 4
+        //  wallet
 
-        blockChain.add(new Block("third",blockChain.get(blockChain.size()-1).hash));
-        System.out.println("Trying to Mine block 3... ");
-        blockChain.get(2).mineBlock(difficulty);
+        Security.addProvider(new BouncyCastleProvider());
 
-        System.out.println("\nBlockchain is Valid: " + isChainValid());
+        walletA = new Wallet();
+        walletB = new Wallet();
 
-        String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(blockChain);
-        System.out.println("\nThe block chain: ");
-        System.out.println(blockchainJson);
+        System.out.println("Private and public keys : ");
+        System.out.println(StringUtil.getStringFromKey(walletA.privateKey));
+        System.out.println(StringUtil.getStringFromKey(walletA.publicKey));
+
+        Transaction transaction = new Transaction(walletA.publicKey,walletB.publicKey,5,null);
+        transaction.generateSignature(walletA.privateKey);
+
+        System.out.println("Is signature verified");
+        System.out.println(transaction.verifySignature());
+
     }
 
     public static Boolean isChainValid(){
@@ -85,5 +111,6 @@ public class NoobChain {
         }
         return true;
     }
+
 
 }
