@@ -1,5 +1,3 @@
-import util.StringUtil;
-
 import java.security.PublicKey;
 
 public class TransactionOutput {
@@ -15,7 +13,7 @@ public class TransactionOutput {
         this.id = StringUtil.applySha256(StringUtil.getStringFromKey(recipient)+ Float.toString(value)+parentTransactionId);
     }
 
-    public boolean isMint(PublicKey publicKey){
+    public boolean isMine(PublicKey publicKey){
         return (publicKey == recipient);
     }
 }

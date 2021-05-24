@@ -1,7 +1,4 @@
-import com.google.gson.GsonBuilder;
-import com.sun.xml.internal.ws.util.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import util.StringUtil;
 
 import java.security.Security;
 import java.util.ArrayList;
@@ -24,6 +21,8 @@ public class NoobChain {
     public static HashMap<String,TransactionOutput> UTXOs = new HashMap<>();
     public static Wallet walletA;
     public static Wallet walletB;
+
+    public static int minimumTransaction;
     public static void main(String[] args) {
 
         // todo chapter 1
@@ -86,31 +85,31 @@ public class NoobChain {
 
     }
 
-    public static Boolean isChainValid(){
-        Block currentBlock;
-        Block previousBlock;
-        String hashTarget = new String(new char[difficulty]).replace('\0','0');
-
-        for(int i=1; i<blockChain.size();i++){
-            currentBlock = blockChain.get(i);
-            previousBlock = blockChain.get(i-1);
-
-            if(!currentBlock.hash.equals(currentBlock.calculateHash())){
-                System.out.println("current hashes not equal");
-                return false;
-            }
-
-            if(!previousBlock.hash.equals(currentBlock.previousHash)){
-                System.out.println("previous hashes not equal");
-                return false;
-            }
-            if(!currentBlock.hash.substring(0,difficulty).equals(hashTarget)){
-                System.out.println("this block hasn't been mined");
-                return false;
-            }
-        }
-        return true;
-    }
+//    public static Boolean isChainValid(){
+//        Block currentBlock;
+//        Block previousBlock;
+//        String hashTarget = new String(new char[difficulty]).replace('\0','0');
+//
+//        for(int i=1; i<blockChain.size();i++){
+//            currentBlock = blockChain.get(i);
+//            previousBlock = blockChain.get(i-1);
+//
+//            if(!currentBlock.hash.equals(currentBlock.calculateHash())){
+//                System.out.println("current hashes not equal");
+//                return false;
+//            }
+//
+//            if(!previousBlock.hash.equals(currentBlock.previousHash)){
+//                System.out.println("previous hashes not equal");
+//                return false;
+//            }
+//            if(!currentBlock.hash.substring(0,difficulty).equals(hashTarget)){
+//                System.out.println("this block hasn't been mined");
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
 
 }

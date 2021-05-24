@@ -1,12 +1,8 @@
-import com.sun.xml.internal.ws.util.StringUtils;
-import util.StringUtil;
-
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class Transaction {
-
 
     public String transactionId;// transaction의 hash
     public PublicKey sender;
@@ -47,6 +43,7 @@ public class Transaction {
     }
 
     public boolean processTransaction(){
+
         if(verifySignature() == false){
             System.out.println("#Transaction Signature failed to verify");
             return false;
