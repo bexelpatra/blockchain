@@ -19,7 +19,7 @@ public class Block {
 //        this.hash = calculateHash();
 //    }
 
-    public Block(String data, String previousHash) {
+    public Block(String previousHash) {
         this.previousHash = previousHash;
         this.timeStamp = new Date().getTime();
         this.hash = calculateHash();
@@ -36,6 +36,7 @@ public class Block {
     }
 
     public void mineBlock(int difficulty){
+        merkleRoot = StringUtil.getMerkleRoot(transactions);
         String target = new String(new char[difficulty]).replace('\0','0');
 
         while(!hash.substring(0,difficulty).equals(target)){

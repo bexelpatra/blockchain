@@ -5,6 +5,11 @@ import java.util.Base64;
 
 public class StringUtil {
 
+    /**
+     * sha암호화 방식을 사용해서 16진수 암호화
+     * @param input 암호화할 내용
+     * @return
+     */
     public static String applySha256(String input){
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -12,6 +17,7 @@ public class StringUtil {
             StringBuffer hexString = new StringBuffer();
             for(int i=0;i<hash.length;i++){
 
+                // integer와 byte가 계산되면서 변형되지 않도록 한다.
                 String hex = Integer.toHexString(0xff & hash[i]);
                 if(hex.length() == 1){
                     hexString.append('0');
@@ -24,6 +30,12 @@ public class StringUtil {
         }
     }
 
+    /**
+     * 암호화 서명하기
+     * @param privateKey
+     * @param input
+     * @return
+     */
     public static byte[] applyECDSASig(PrivateKey privateKey,String input){
         Signature dsa;
         byte[] output = new byte[0];
@@ -41,6 +53,13 @@ public class StringUtil {
         return output;
     }
 
+    /**
+     * 암호화 검증하기, 공개키와 데이터, 서명을 이용해 검증
+     * @param publicKey
+     * @param data
+     * @param signature
+     * @return
+     */
     public static boolean verifyECDSASig(PublicKey publicKey,String data, byte[] signature){
         try {
             Signature ecdsaVerify= Signature.getInstance("ECDSA","BC");
@@ -52,6 +71,11 @@ public class StringUtil {
         }
     }
 
+    /**
+     * key를 base64로 변환
+     * @param key
+     * @return
+     */
     public static String getStringFromKey(Key key){
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
