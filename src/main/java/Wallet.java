@@ -11,12 +11,18 @@ public class Wallet {
 
     public HashMap<String,TransactionOutput> UTXOs = new HashMap<>();
 
+    /**
+     * 생성자 : private key와 public key를 생성한다.
+     *          이때 private key는 TX(transation)를 만들때 서명에 쓰이는 key로 다른 사람들에게 공개되면 안된다. 내가 지갑주인이라는 입증하는 key
+     */
     public Wallet(){
         generateKeyPair();
     }
 
+    // key 생성하기
     public void generateKeyPair(){
         try {
+            //
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDSA","BC");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
             ECGenParameterSpec ecSpec = new ECGenParameterSpec("prime192v1");

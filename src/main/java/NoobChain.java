@@ -17,13 +17,16 @@ import java.util.HashMap;
 public class NoobChain {
 
     public static ArrayList<Block> blockChain = new ArrayList<>();
-    public static int difficulty = 5;
+    public static int difficulty = 5; //  채굴 난이도. hash에서 앞에 0이붙는 개수
+    // 아직 사용되지 않은 transactionout들, 잔고개념으로 볼 수 있다.
     public static HashMap<String,TransactionOutput> UTXOs = new HashMap<>();
+
+    // 임의의 지갑 두개
     public static Wallet walletA;
     public static Wallet walletB;
 
-    public static float minimumTransaction = 0.1f;
-    public static Transaction genesisTransaction;
+    public static float minimumTransaction = 0.1f; // 최소 전송 금액
+    public static Transaction genesisTransaction; // 시작 트랜잭션
     public static void main(String[] args) {
 
         // todo chapter 1
@@ -94,6 +97,9 @@ public class NoobChain {
         Wallet coinbase = new Wallet();
 
         //최초 트랜잭션 생성하기, 100NoobChain을 지급
+        // 이외의 지급 조건이 없으므로 100Noob이 끝
+        // 비트코인의 경우 새롭게 블록을 채굴하면 처음 50bit 부터 시작해서 4년마다 반감기를 거치면서 지급한다. 2021년 기준 블록 1개를 채굴하면 6.25bit 지급
+        // 비트코인에서 새로운 채굴 난이도는 10분에 한개가 생성되도록 조정된다. 하루 2,102,000개 생성
         genesisTransaction = new Transaction(coinbase.publicKey, walletA.publicKey, 100f, null);
         genesisTransaction.generateSignature(coinbase.privateKey);	 //manually sign the genesis transaction
         genesisTransaction.transactionId = "0"; //manually set the transaction id
